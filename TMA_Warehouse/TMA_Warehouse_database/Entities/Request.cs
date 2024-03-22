@@ -4,9 +4,9 @@ using TMA_Warehouse_database.Selection;
 
 namespace TMA_Warehouse_database.Entities
 {
+    [EntityTypeConfiguration(typeof(RequestEntityConfiguration))]
     public class Request
     {
-        [EntityTypeConfiguration(typeof(RequestEntityConfiguration))]
         public int RequestId { get; init; }
         public string EmployeeName { get; set; }
         public int Quantity { get; set; }

@@ -32,6 +32,11 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
                 .HasMaxLength(20);
             builder.Property(p => p.ContactPerson)
                 .HasMaxLength(50);
+
+            //builder.HasOne(item => item.RequestRow)
+            //       .WithMany(requestRow => requestRow.Items)
+            //       .HasPrincipalKey(item => item.RequestRowId)
+            //       .HasForeignKey(requestRow => requestRow.RequestRowId);
         }
     }
 }

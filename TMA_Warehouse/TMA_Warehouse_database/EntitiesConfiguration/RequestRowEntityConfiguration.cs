@@ -18,7 +18,7 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
                 .IsRequired();
             builder.HasIndex(p => p.RequestRowId)
                 .IsUnique();
-            builder.Property(p => p.ItemIds)
+            builder.Property(p => p.Items)
                 .IsRequired();
             builder.Property(p => p.UnitOfMeasurement)
                 .IsRequired();
@@ -29,6 +29,16 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
                 .HasColumnType("decimal(5,2)");
             builder.Property(p => p.Comment)
                 .HasMaxLength(50);
+
+            //builder.HasOne(requestRow => requestRow.Request)
+            //       .WithOne(request => request.RequestRow)
+            //       .HasForeignKey<Request>(r => r.RequestRowId)
+            //       .IsRequired();
+
+            //builder.HasMany(requestRow => requestRow.Items)
+            //       .WithOne(item => item.RequestRow)
+            //       .HasPrincipalKey(requestRow => requestRow.RequestRowId)
+            //       .HasForeignKey(item => item.RequestRowId);
         }
     }
 }

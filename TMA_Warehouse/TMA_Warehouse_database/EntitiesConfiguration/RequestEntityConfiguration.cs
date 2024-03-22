@@ -27,6 +27,11 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
                 .IsRequired();
             builder.HasIndex(p => p.RequestRowId)
                 .IsUnique();
+
+            //builder.HasOne(request => request.RequestRow)
+            //       .WithOne(requestRow => requestRow.Request)
+            //       .HasForeignKey<RequestRow>(r => r.RequestRowId)
+            //       .IsRequired();
         }
     }
 }
