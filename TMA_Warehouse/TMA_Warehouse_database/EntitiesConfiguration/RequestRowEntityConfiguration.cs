@@ -18,7 +18,7 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
                 .IsRequired();
             builder.HasIndex(p => p.RequestRowId)
                 .IsUnique();
-            builder.Property(p => p.ItemId)
+            builder.Property(p => p.ItemIds)
                 .IsRequired();
             builder.Property(p => p.UnitOfMeasurement)
                 .IsRequired();

@@ -1,9 +1,12 @@
-﻿using TMA_Warehouse_database.Selection;
+﻿using Microsoft.EntityFrameworkCore;
+using TMA_Warehouse_database.EntitiesConfiguration;
+using TMA_Warehouse_database.Selection;
 
 namespace TMA_Warehouse_database.Entities
 {
     public class Request
     {
+        [EntityTypeConfiguration(typeof(RequestEntityConfiguration))]
         public int RequestId { get; init; }
         public string EmployeeName { get; set; }
         public int Quantity { get; set; }

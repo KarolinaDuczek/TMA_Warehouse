@@ -1,9 +1,12 @@
-﻿using TMA_Warehouse_database.Selection;
+﻿using Microsoft.EntityFrameworkCore;
+using TMA_Warehouse_database.EntitiesConfiguration;
+using TMA_Warehouse_database.Selection;
 
 namespace TMA_Warehouse_database.Entities
 {
     public class RequestRow
     {
+        [EntityTypeConfiguration(typeof(RequestRowEntityConfiguration))]
         public int RequestRowId { get; init; }
         public UnitOfMeasurementSelection UnitOfMeasurement { get; init; }
         public int Quantity { get; set;}
