@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TMA_Warehouse_database.Context;
+using TMA_Warehouse_WebAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<WarehouseContext>(configuration =>
     sqlOptions => sqlOptions.MigrationsAssembly(nameof(TMA_Warehouse_database)))
     .LogTo(Console.WriteLine, LogLevel.Information);
 });
+
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 var app = builder.Build();
 
