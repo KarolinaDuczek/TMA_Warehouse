@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TMA_Warehouse_database.Selection
 {
-    public enum StatusSelection
+    public enum StatusSelection : byte
     {
         New = 0,
-        ApproveRequest,
-        RejectRequest
+        ApproveRequest = 1,
+        RejectRequest = 2,
     }
 }

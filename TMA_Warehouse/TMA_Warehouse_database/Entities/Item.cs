@@ -15,8 +15,7 @@ namespace TMA_Warehouse_database.Entities
         public string? Status { get; set; }
         public string? StorageLocation { get; set; }
         public string? ContactPerson { get; set; }
-        public virtual RequestRow RequestRow { get; set; }
-        public virtual int RequestRowId { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
 
     }
 }

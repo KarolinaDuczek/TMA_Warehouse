@@ -13,6 +13,5 @@ namespace TMA_Warehouse_database.Context
         public WarehouseContext(DbContextOptions<WarehouseContext> options): base(options) { }
         public DbSet<Item> Items { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<RequestRow> RequestRows { get; set; }
     }
 }

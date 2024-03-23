@@ -17,21 +17,19 @@ namespace TMA_Warehouse_database.EntitiesConfiguration
             builder.Property(p => p.EmployeeName)
                 .HasMaxLength(50)
                 .IsRequired();
+            builder.Property(p=>p.ItemId)
+                .IsRequired();
+            builder.Property(p => p.UnitOfMeasurement)
+                .IsRequired();
             builder.Property(p => p.Quantity)
+                .IsRequired();
+            builder.Property(p => p.PriceWithoutVAT)
+                .HasColumnType("decimal(5,2)")
                 .IsRequired();
             builder.Property(p => p.Comment)
                 .HasMaxLength(50);
             builder.Property(p => p.Status)
                 .HasMaxLength(20);
-            builder.Property(p => p.RequestRowId)
-                .IsRequired();
-            builder.HasIndex(p => p.RequestRowId)
-                .IsUnique();
-
-            //builder.HasOne(request => request.RequestRow)
-            //       .WithOne(requestRow => requestRow.Request)
-            //       .HasForeignKey<RequestRow>(r => r.RequestRowId)
-            //       .IsRequired();
         }
     }
 }
