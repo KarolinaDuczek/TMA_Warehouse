@@ -1,5 +1,4 @@
 ﻿using TMA_Warehouse_database.Entities;
-using TMA_Warehouse_Models.DTOs;
 
 namespace TMA_Warehouse_WebAPI.Repositories
 {

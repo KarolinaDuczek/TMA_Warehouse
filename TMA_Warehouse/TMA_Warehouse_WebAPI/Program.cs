@@ -20,6 +20,7 @@ builder.Services.AddDbContext<WarehouseContext>(configuration =>
 });
 
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IRequestRepository,  RequestRepository>();
 
 var app = builder.Build();
 

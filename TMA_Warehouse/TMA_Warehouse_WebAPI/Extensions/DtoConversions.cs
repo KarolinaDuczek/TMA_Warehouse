@@ -44,5 +44,44 @@ namespace TMA_Warehouse_WebAPI.Extensions
                 ContactPerson = i.ContactPerson,
             };
         }
+        public static IEnumerable<RequestDto> ConvertToDto(this IEnumerable<Request> requests)
+        {
+            return requests.Select(i => new RequestDto
+            {
+                EmployeeName = i.EmployeeName,
+                ItemId = i.ItemId,
+                UnitOfMeasurement = i.UnitOfMeasurement,
+                Quantity = i.Quantity,
+                PriceWithoutVAT = i.PriceWithoutVAT,
+                Comment = i.Comment,
+                Status = i.Status,
+            }).ToList();
+        }
+        public static RequestDto ConvertToDto(this Request i)
+        {
+            return new RequestDto
+            {
+                EmployeeName = i.EmployeeName,
+                ItemId = i.ItemId,
+                UnitOfMeasurement = i.UnitOfMeasurement,
+                Quantity = i.Quantity,
+                PriceWithoutVAT = i.PriceWithoutVAT,
+                Comment = i.Comment,
+                Status = i.Status,
+            };
+        }
+        public static Request ConvertToEntity(this RequestDto i)
+        {
+            return new Request
+            {
+                EmployeeName = i.EmployeeName,
+                ItemId = i.ItemId,
+                UnitOfMeasurement = i.UnitOfMeasurement,
+                Quantity = i.Quantity,
+                PriceWithoutVAT = i.PriceWithoutVAT,
+                Comment = i.Comment,
+                Status = i.Status,
+            };
+        }
     }
 }

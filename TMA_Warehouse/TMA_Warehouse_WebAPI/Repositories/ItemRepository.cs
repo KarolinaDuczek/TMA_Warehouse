@@ -1,11 +1,6 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TMA_Warehouse_database.Context;
 using TMA_Warehouse_database.Entities;
-using TMA_Warehouse_Models.DTOs;
-using TMA_Warehouse_WebAPI.Extensions;
 
 namespace TMA_Warehouse_WebAPI.Repositories
 {
@@ -26,8 +21,7 @@ namespace TMA_Warehouse_WebAPI.Repositories
 
         public async Task<Item> GetItem(int id)
         {
-            var item = await _context.Items
-                    .FindAsync(id);
+            var item = await _context.Items.FindAsync(id);
             return item;
         }
 
@@ -39,16 +33,6 @@ namespace TMA_Warehouse_WebAPI.Repositories
 
         public async Task<Item> UpdateItem(int id, Item item)
         {
-            //var itemToUpdate = item.ConvertToEntity();
-            //await _context.Items
-            //        .FindAsync(id);
-            //if (itemToUpdate != null)
-            //{
-            //    itemToUpdate = item;
-            //    await _context.SaveChangesAsync();
-            //}
-            //return item;
-
             var dbItem = await _context.Items.FindAsync(id);
 
             dbItem.ItemGroup = item.ItemGroup;
@@ -65,8 +49,7 @@ namespace TMA_Warehouse_WebAPI.Repositories
 
         public async Task DeleteItem(int id)
         {
-            var itemToDelete = await _context.Items
-                    .FindAsync(id);
+            var itemToDelete = await _context.Items.FindAsync(id);
             if (itemToDelete is null)
             {
                 throw new Exception("Object not found");

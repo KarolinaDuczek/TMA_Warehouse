@@ -1,87 +1,85 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TMA_Warehouse_database.Entities;
 using TMA_Warehouse_Models.DTOs;
 using TMA_Warehouse_WebAPI.Repositories;
 using TMA_Warehouse_WebAPI.Extensions;
 
-namespace TMA_Warehouse_WebAPI.Controllers
+namespace TMA_Warehouse_WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ItemController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ItemController : ControllerBase
+    private readonly IItemRepository _itemRepository;
+
+    public ItemController(IItemRepository itemRepository)
     {
-        private readonly IItemRepository _itemRepository;
+        _itemRepository = itemRepository;
+    }
 
-        public ItemController(IItemRepository itemRepository)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ItemDto>>> GetItems()
+    {
+        var items = await _itemRepository.GetItems();
+        if (items == null)
         {
-            _itemRepository = itemRepository;
+            return NotFound();
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetItems()
+        else
         {
-            var items = await _itemRepository.GetItems();
-            if (items == null)
+            var itemDtos = items.ConvertToDto();
+            return Ok(itemDtos);
+        }
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ItemDto>> GetItemById(int id)
+    {
+        try
+        {
+            var item = await _itemRepository.GetItem(id);
+            if (item == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             else
             {
-                var itemDtos = items.ConvertToDto();
+                var itemDtos = item.ConvertToDto();
                 return Ok(itemDtos);
             }
         }
-
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<ItemDto>> GetItemById(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                var item = await _itemRepository.GetItem(id);
-                if (item == null)
-                {
-                    return BadRequest();
-                }
-                else
-                {
-                    var itemDtos = item.ConvertToDto();
-                    return Ok(itemDtos);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return StatusCode(500, ex.Message);
         }
+    }
 
-        [HttpPost]
-        public async Task<NoContentResult> AddItem(ItemDto request)
-        {
-            var itemToAdd = request.ConvertToEntity();
-            await _itemRepository.AddItem(itemToAdd);
-                return NoContent();
-        }
+    [HttpPost]
+    public async Task<NoContentResult> AddItem(ItemDto request)
+    {
+        var itemToAdd = request.ConvertToEntity();
+        await _itemRepository.AddItem(itemToAdd);
+            return NoContent();
+    }
 
-        [HttpPut("{id:int}")]
-        public async Task<NoContentResult> UpdateItemById(int id, ItemDto request)
+    [HttpPut("{id:int}")]
+    public async Task<NoContentResult> UpdateItemById(int id, ItemDto request)
+    {
+        var itemToUpdate = request.ConvertToEntity();
+        await _itemRepository.UpdateItem(id, itemToUpdate);
+        return NoContent();
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteItemById(int id)
+    {
+        try
         {
-            var itemToUpdate = request.ConvertToEntity();
-            await _itemRepository.UpdateItem(id, itemToUpdate);
+            await _itemRepository.DeleteItem(id);
             return NoContent();
         }
-
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteProductById(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                await _itemRepository.DeleteItem(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
     }
 }
