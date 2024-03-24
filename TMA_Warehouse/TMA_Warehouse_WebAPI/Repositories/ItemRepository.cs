@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TMA_Warehouse_database.Context;
 using TMA_Warehouse_database.Entities;
+using TMA_Warehouse_Models.DTOs;
+using TMA_Warehouse_WebAPI.Extensions;
 
 namespace TMA_Warehouse_WebAPI.Repositories
 {
@@ -24,8 +27,7 @@ namespace TMA_Warehouse_WebAPI.Repositories
         public async Task<Item> GetItem(int id)
         {
             var item = await _context.Items
-                    .Where(item => item.ItemId == id)
-                    .FirstOrDefaultAsync();
+                    .FindAsync(id);
             return item;
         }
 
@@ -37,14 +39,28 @@ namespace TMA_Warehouse_WebAPI.Repositories
 
         public async Task<Item> UpdateItem(int id, Item item)
         {
-            var itemToUpdate = await _context.Items
-                    .FindAsync(id);
-            if (itemToUpdate != null)
-            {
-                itemToUpdate = item;
-                await _context.SaveChangesAsync();
-            }
-            return item;
+            //var itemToUpdate = item.ConvertToEntity();
+            //await _context.Items
+            //        .FindAsync(id);
+            //if (itemToUpdate != null)
+            //{
+            //    itemToUpdate = item;
+            //    await _context.SaveChangesAsync();
+            //}
+            //return item;
+
+            var dbItem = await _context.Items.FindAsync(id);
+
+            dbItem.ItemGroup = item.ItemGroup;
+            dbItem.UnitOfMeasurement = item.UnitOfMeasurement;
+            dbItem.Quantity = item.Quantity;
+            dbItem.PriceWithoutVAT = item.PriceWithoutVAT;
+            dbItem.Status = item.Status;
+            dbItem.StorageLocation = item.StorageLocation;
+            dbItem.ContactPerson = item.ContactPerson;
+
+            await _context.SaveChangesAsync();
+            return dbItem;
         }
 
         public async Task DeleteItem(int id)

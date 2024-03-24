@@ -4,7 +4,6 @@ namespace TMA_Warehouse_Models.DTOs
 {
     public class RequestDto
     {
-        public int RequestId { get; init; }
         public string EmployeeName { get; set; }
         public int ItemId { get; set; }
         public UnitOfMeasurementSelection UnitOfMeasurement { get; init; }

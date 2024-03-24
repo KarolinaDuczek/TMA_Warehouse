@@ -32,7 +32,7 @@ namespace TMA_Warehouse_WebAPI.Controllers
             }
         }
 
-        [HttpGet("{Id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<ItemDto>> GetItemById(int id)
         {
             try
@@ -40,7 +40,7 @@ namespace TMA_Warehouse_WebAPI.Controllers
                 var item = await _itemRepository.GetItem(id);
                 if (item == null)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace TMA_Warehouse_WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -62,22 +62,15 @@ namespace TMA_Warehouse_WebAPI.Controllers
                 return NoContent();
         }
 
-        [HttpPut("{Id:int}")]
-        public async Task<ActionResult<ItemDto>> UpdateItemById(int id, Item item)
+        [HttpPut("{id:int}")]
+        public async Task<NoContentResult> UpdateItemById(int id, ItemDto request)
         {
-            var itemToUpdate = await _itemRepository.UpdateItem(id, item);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                var itemDtos = item.ConvertToDto();
-                return Ok(itemDtos);
-            }
+            var itemToUpdate = request.ConvertToEntity();
+            await _itemRepository.UpdateItem(id, itemToUpdate);
+            return NoContent();
         }
 
-        [HttpDelete("{Id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteProductById(int id)
         {
             try
