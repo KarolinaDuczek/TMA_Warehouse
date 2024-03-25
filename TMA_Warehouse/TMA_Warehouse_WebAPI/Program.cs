@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Net.Http.Headers;
 using TMA_Warehouse_database.Context;
 using TMA_Warehouse_WebAPI.Repositories;
 
@@ -34,6 +35,11 @@ using var scope = app.Services.CreateScope();
 
 var db = scope.ServiceProvider.GetRequiredService<WarehouseContext>();
 db.Database.Migrate();
+
+app.UseCors(policy =>
+policy.WithOrigins("https://localhost:7067", "http://localhost:7067")
+.AllowAnyMethod()
+.WithHeaders(HeaderNames.ContentType));
 
 app.UseHttpsRedirection();
 
