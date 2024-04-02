@@ -5,6 +5,7 @@ namespace TMA_Warehouse_Models.DTOs
 {
     public class ItemDto
     {
+        public int ItemId { get; set; }
         public ItemGroupSelection ItemGroup { get; set; }
         public UnitOfMeasurementSelection UnitOfMeasurement { get; set; }
         public int Quantity { get; set; }

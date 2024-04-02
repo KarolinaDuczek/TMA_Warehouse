@@ -1,53 +1,50 @@
-﻿@page "/itemslist"
-@inherits ItemsBase
+﻿@page "/items"
+@inject IItemService ItemService
+@inject NavigationManager NavigationManager
 
-@if(Items == null)
+@if(ItemService.Items == null)
 {
     <h5>Loading Items...</h5>
 }
 else
 {
-    <QuickGrid Items="Items.AsQueryable()" ResizableColumns>
-        <PropertyColumn Property="i => i.ItemGroup" Title="Item Group" Sortable="true" />
-        <PropertyColumn Property="i => i.UnitOfMeasurement" Title="Measurement" Sortable="true" />
-        <PropertyColumn Property="i => i.Quantity" Sortable="true" />
-        <PropertyColumn Property="i => i.PriceWithoutVAT" Title="Price without VAT" Sortable="true" />
-        <PropertyColumn Property="i => i.Status" Sortable="true" />
-        <PropertyColumn Property="i => i.StorageLocation" Title="Storage Location" Sortable="true" />
-        <PropertyColumn Property="i => i.ContactPerson" Title="Contact Person" Sortable="true" />
-    </QuickGrid>
-
-    @* <table class="table"
-           id="table"
-           data-toggle="table"
-           data-height="460"
-           data-custom-sort="customSort">
-        <thead>
-            <tr>
-                <th data-field="Group" data-sortable="true" class="font-weight-bold">Item Group</th>
-                <th scope="col" class="font-weight-bold">Unit Of Measurement</th>
-                <th scope="col" class="font-weight-bold">Quantity</th>
-                <th scope="col" class="font-weight-bold">Price Without VAT</th>
-                <th scope="col" class="font-weight-bold">Status</th>
-                <th scope="col" class="font-weight-bold">Storage Location</th>
-                <th scope="col" class="font-weight-bold">Contact Person</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var i in Items)
-            {
-                <tr>
-                    <td>@i.ItemGroup</td>
-                    <td>@i.UnitOfMeasurement</td>
-                    <td>@i.Quantity</td>
-                    <td>@i.PriceWithoutVAT</td>
-                    <td>@i.Status</td>
-                    <td>@i.StorageLocation</td>
-                    <td>@i.ContactPerson</td>
-                </tr>
-            }
-        </tbody>
-    </table> *@
+    <h3 class="p-3">Items List</h3>
+    <div class="grid p-2">
+        <QuickGrid Items="ItemService.Items.AsQueryable()" ResizableColumns>
+            <PropertyColumn Property="i => i.ItemId" Title="#" Sortable="true"/>
+            <PropertyColumn Property="i => i.ItemGroup" Title="Group" Sortable="true" />
+            <PropertyColumn Property="i => i.UnitOfMeasurement" Title="Measurement" Sortable="true"/>
+            <PropertyColumn Property="i => i.Quantity" Sortable="true" />
+            <PropertyColumn Property="i => i.PriceWithoutVAT" Title="Price without VAT" Sortable="true" />
+            <PropertyColumn Property="i => i.Status" Sortable="true" />
+            <PropertyColumn Property="i => i.StorageLocation" Title="Storage Location" Sortable="true" />
+            <PropertyColumn Property="i => i.ContactPerson" Title="Contact Person" Sortable="true" />
+            <TemplateColumn>
+                <button class="btn btn-info text-white btn-sm">
+                    Update
+                </button>
+                <button class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+            </TemplateColumn>
+        </QuickGrid>
+    </div>
+    <div>
+        <button class="btn btn-primary mt-3" asp-action="Add">
+            Add new item
+        </button>
+    </div>
 }
+@code{
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ItemService.GetItems();
+    }
+    void ShowItem(int id){
+        NavigationManager.NavigateTo($"item/{id}");
+    }
+}
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/bootstrap-table.min.js"></script>

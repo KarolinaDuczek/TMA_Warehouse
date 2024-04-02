@@ -9,6 +9,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return items.Select(i => new ItemDto
             {
+                ItemId = i.ItemId,
                 ItemGroup = i.ItemGroup,
                 UnitOfMeasurement = i.UnitOfMeasurement,
                 Quantity = i.Quantity,
@@ -22,6 +23,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return new ItemDto
             {
+                ItemId = i.ItemId,
                 ItemGroup = i.ItemGroup,
                 UnitOfMeasurement = i.UnitOfMeasurement,
                 Quantity = i.Quantity,
@@ -35,6 +37,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return new Item
             {
+                ItemId = i.ItemId,
                 ItemGroup = i.ItemGroup,
                 UnitOfMeasurement = i.UnitOfMeasurement,
                 Quantity = i.Quantity,

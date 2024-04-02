@@ -19,4 +19,8 @@
     <ProjectReference Include="..\TMA_Warehouse_Models\TMA_Warehouse_Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
+
 </Project>
