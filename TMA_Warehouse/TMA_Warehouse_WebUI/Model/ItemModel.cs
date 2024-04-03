@@ -1,6 +1,6 @@
 ﻿namespace TMA_Warehouse_WebUI.Model;
 
-public class Item
+public class ItemModel
 {
     public int ItemId { get; set; }
     public ItemGroupSelection ItemGroup { get; set; }

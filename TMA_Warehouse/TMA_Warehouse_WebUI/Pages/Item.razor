@@ -1,0 +1,100 @@
+﻿@page "/item"
+@page "/item/{id:int}"
+@inject IItemService ItemService
+@inject NavigationManager NavigationManager
+
+@if(Id is null)
+{
+    <PageTitle>Create a new Item</PageTitle>
+    <h3>Create a new Item</h3>
+}
+else
+{
+    <PageTitle>Edit Item number: @item.ItemId</PageTitle>
+    <h3>Edit Item number: @item.ItemId</h3>
+
+}
+
+<EditForm Model="item" OnSubmit="HandleSubmit">
+    <div>
+        <label for="itemGroup">Item Group</label>
+        <InputSelect id="itemGroup" @bind-Value="item.ItemGroup" class="form-control">
+            @foreach (var selection in Enum.GetValues(typeof(ItemGroupSelection)))
+            {
+                <option value="@selection">@selection</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label for="unitOfMeasurement">Unit Of Measurement</label>
+        <InputSelect id="unitOfMeasurement" @bind-Value="item.UnitOfMeasurement" class="form-control">
+            @foreach (var selection in Enum.GetValues(typeof(UnitOfMeasurementSelection)))
+            {
+                <option value="@selection">@selection</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" @bind-Value="item.Quantity" class="form-control" />
+    </div>
+    <div>
+        <label for="priceWithoutVAT">Price Without VAT</label>
+        <InputNumber id="priceWithoutVAT" @bind-Value="item.PriceWithoutVAT" class="form-control" />
+    </div>
+    <div>
+        <label for="status">Status</label>
+        <InputText id="status" @bind-Value="item.Status" class="form-control" />
+    </div>
+    <div>
+        <label for="storageLocation">Storage Location</label>
+        <InputText id="storageLocation" @bind-Value="item.StorageLocation" class="form-control" />
+    </div>
+    <div>
+        <label for="contactPerson">Contact Person</label>
+        <InputText id="contactPerson" @bind-Value="item.ContactPerson" class="form-control" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    <button type="button" class="btn btn-danger"
+            @onclick="DeleteItem">
+        Delete Product
+    </button>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    string btnText = string.Empty;
+    TMA_Warehouse_WebUI.Model.ItemModel item = new TMA_Warehouse_WebUI.Model.ItemModel();
+    protected override void OnInitialized()
+    {
+        btnText = Id == null ? "Save New Item" : "Update Item";
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        if(Id is not null)
+        {
+            var result = await ItemService.GetItemById((int)Id);
+            if (result is not null)
+                item = result;
+            else NavigationManager.NavigateTo("/item");
+        }
+    }
+    async Task HandleSubmit()
+    {
+        if(Id is null)
+        {
+            await ItemService.AddItem(item);
+        }
+        else
+        {
+            await ItemService.UpdateItem((int)Id, item);
+        }
+    }
+    async Task DeleteItem()
+    {
+        await ItemService.DeleteItem(item.ItemId);
+    }
+}

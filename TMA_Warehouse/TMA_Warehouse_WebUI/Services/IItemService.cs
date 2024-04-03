@@ -11,8 +11,8 @@ public interface IItemService
 
     IEnumerable<ItemDto> Items { get; set; }
     Task GetItems();
-    Task<Item?> GetItemById(int id);
-    Task AddItem(Item item);
-    Task UpdateItem(int id, Item item);
+    Task<ItemModel?> GetItemById(int id);
+    Task AddItem(ItemModel item);
+    Task UpdateItem(int id, ItemModel item);
     Task DeleteItem(int id);
 }

@@ -19,7 +19,7 @@ public class ItemService : IItemService
 
     public IEnumerable<ItemDto> Items { get; set; }
 
-    public async Task AddItem(Item item)
+    public async Task AddItem(ItemModel item)
     {
         await _http.PostAsJsonAsync("api/Item", item);
         _navigationManger.NavigateTo("items");
@@ -31,12 +31,12 @@ public class ItemService : IItemService
         _navigationManger.NavigateTo("items");
     }
 
-    public async Task<Item?> GetItemById(int id)
+    public async Task<ItemModel?> GetItemById(int id)
     {
         var result = await _http.GetAsync($"api/Item/{id}");
         if (result.StatusCode == HttpStatusCode.OK)
         {
-            return await result.Content.ReadFromJsonAsync<Item>();
+            return await result.Content.ReadFromJsonAsync<ItemModel>();
         }
         return null;
     }
@@ -48,7 +48,7 @@ public class ItemService : IItemService
             Items = result;
     }
 
-    public async Task UpdateItem(int id, Item item)
+    public async Task UpdateItem(int id, ItemModel item)
     {
         await _http.PutAsJsonAsync($"api/Item/{id}", item);
         _navigationManger.NavigateTo("items");
