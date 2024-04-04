@@ -67,7 +67,7 @@ else
     [Parameter]
     public int? Id { get; set; }
     string btnText = string.Empty;
-    TMA_Warehouse_WebUI.Model.ItemModel item = new TMA_Warehouse_WebUI.Model.ItemModel();
+    ItemModel item = new ItemModel();
     protected override void OnInitialized()
     {
         btnText = Id == null ? "Save New Item" : "Update Item";

@@ -1,0 +1,73 @@
+﻿@page "/requests"
+@inject IRequestService RequestService
+@inject NavigationManager NavigationManager
+
+@if (RequestService.Requests == null)
+{
+    <h5>Loading Requests...</h5>
+}
+else
+{
+    <h3 class="p-3">Requests List</h3>
+    <div class="p-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Employee Name</th>
+                    <th>Item Id</th>
+                    <th>Measurement</th>
+                    <th>Quantity</th>
+                    <th>Price without VAT</th>
+                    <th>Comment</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in RequestService.Requests)
+                {
+                    <tr>
+                        <td>@request.RequestId</td>
+                        <td>@request.EmployeeName</td>
+                        <td>@request.ItemId</td>
+                        <td>@request.UnitOfMeasurement</td>
+                        <td>@request.Quantity</td>
+                        <td>@request.PriceWithoutVAT</td>
+                        <td>@request.Comment</td>
+                        <td>@request.Status</td>
+                        <td>
+                            <button class="btn btn-primary"
+                                    @onclick="(() => ShowRequest(request.RequestId))">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <button class="btn btn-primary mt-3" @onclick="CreateNewRequest">
+            Add new request
+        </button>
+    </div>
+}
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RequestService.GetRequests();
+    }
+
+    void ShowRequest(int id)
+    {
+        NavigationManager.NavigateTo($"request/{id}");
+    }
+
+    void CreateNewRequest()
+    {
+        NavigationManager.NavigateTo("/request");
+    }
+}
+

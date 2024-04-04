@@ -5,10 +5,6 @@ namespace TMA_Warehouse_WebUI.Services;
 
 public interface IItemService
 {
-    //Task<IEnumerable<ItemDto>> GetItems();
-    //Task<ItemDto?> GetProductById(int id);
-    //Task AddItem(Item it);
-
     IEnumerable<ItemDto> Items { get; set; }
     Task GetItems();
     Task<ItemModel?> GetItemById(int id);

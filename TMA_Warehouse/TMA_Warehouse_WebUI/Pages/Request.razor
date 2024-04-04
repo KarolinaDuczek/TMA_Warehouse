@@ -1,0 +1,102 @@
+﻿@page "/request"
+@page "/request/{id:int}"
+@inject IRequestService RequestService
+@inject IItemService ItemService
+@inject NavigationManager NavigationManager
+
+@if (Id is null)
+{
+    <PageTitle>Create a new Request</PageTitle>
+    <h3>Create a new Request</h3>
+}
+else
+{
+    <PageTitle>Edit Request number: @request.RequestId</PageTitle>
+    <h3>Edit Request number: @request.RequestId</h3>
+
+}
+
+<EditForm Model="request" OnSubmit="HandleSubmit">
+    <div>
+        <label for="employeeName">Employee Name</label>
+        <InputText id="employeeName" @bind-Value="request.EmployeeName" class="form-control"/>
+    </div>
+    <div>
+        <label for="itemId">Item Id</label>
+        <InputNumber id="itemId" @bind-Value="request.ItemId" class="form-control" />
+    </div>
+    <div>
+        <label for="unitOfMeasurement">Unit Of Measurement</label>
+        <InputSelect id="unitOfMeasurement" @bind-Value="item.UnitOfMeasurement" class="form-control">
+            @foreach (var selection in Enum.GetValues(typeof(UnitOfMeasurementSelection)))
+            {
+                <option value="@selection">@selection</option>
+            }
+        </InputSelect>
+    </div>
+    <div>
+        <label for="quantity">Quantity</label>
+        <InputNumber id="quantity" @bind-Value="request.Quantity" class="form-control" />
+    </div>
+    <div>
+        <label for="priceWithoutVAT">Price Without VAT</label>
+        <InputNumber id="priceWithoutVAT" @bind-Value="request.PriceWithoutVAT" class="form-control" />
+    </div>
+    <div>
+        <label for="comment">Comment</label>
+        <InputText id="status" @bind-Value="request.Comment" class="form-control" />
+    </div>
+    <div>
+        <label for="status">Status</label>
+        <InputSelect id="status" @bind-Value="request.Status" class="form-control">
+            @foreach (var selection in Enum.GetValues(typeof(StatusSelection)))
+            {
+                <option value="@selection">@selection</option>
+            }
+        </InputSelect>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    <button type="button" class="btn btn-danger"
+            @onclick="DeleteRequest">
+        Delete Request
+    </button>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    string btnText = string.Empty;
+    RequestModel request = new RequestModel();
+    ItemModel item = new ItemModel();
+    protected override void OnInitialized()
+    {
+        btnText = Id == null ? "Save New Request" : "Update Request";
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id is not null)
+        {
+            var result = await RequestService.GetRequestById((int)Id);
+            if (result is not null)
+                request = result;
+            else NavigationManager.NavigateTo("/request");
+        }
+    }
+    async Task HandleSubmit()
+    {
+        if (Id is null)
+        {
+            await RequestService.AddRequest(request);
+        }
+        else
+        {
+            await RequestService.UpdateRequest((int)Id, request);
+        }
+    }
+    async Task DeleteRequest()
+    {
+        await RequestService.DeleteRequest(request.RequestId);
+    }
+}

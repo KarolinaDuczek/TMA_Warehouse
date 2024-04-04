@@ -4,6 +4,7 @@ namespace TMA_Warehouse_WebUI.Model
 {
     public class RequestModel
     {
+        public int RequestId { get; set; }
         public string EmployeeName { get; set; }
         public int ItemId { get; set; }
         public UnitOfMeasurementSelection UnitOfMeasurement { get; init; }

@@ -51,6 +51,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return requests.Select(i => new RequestDto
             {
+                RequestId = i.RequestId,
                 EmployeeName = i.EmployeeName,
                 ItemId = i.ItemId,
                 UnitOfMeasurement = i.UnitOfMeasurement,
@@ -64,6 +65,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return new RequestDto
             {
+                RequestId = i.RequestId,
                 EmployeeName = i.EmployeeName,
                 ItemId = i.ItemId,
                 UnitOfMeasurement = i.UnitOfMeasurement,
@@ -77,6 +79,7 @@ namespace TMA_Warehouse_WebAPI.Extensions
         {
             return new Request
             {
+                RequestId = i.RequestId,
                 EmployeeName = i.EmployeeName,
                 ItemId = i.ItemId,
                 UnitOfMeasurement = i.UnitOfMeasurement,
